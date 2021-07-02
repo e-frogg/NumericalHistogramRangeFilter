@@ -287,8 +287,8 @@ export class NumericalHistogramRangeFilter {
             if (this.histogram.slices.hasOwnProperty(key)) {
                 if (
                     (this.histogram.slices[key].start >= this.min && this.histogram.slices[key].end <= this.max)
-                    || (this.min >= this.histogram.slices[key].start && this.min <= this.histogram.slices[key].end)
-                    || (this.histogram.slices[key].start <= this.max && this.histogram.slices[key].end >= this.max)
+                    || (this.min > this.histogram.slices[key].start && this.min < this.histogram.slices[key].end)
+                    || (this.histogram.slices[key].start < this.max && this.histogram.slices[key].end > this.max)
                 ) {
                     this.histogramsButtonsNodes[key].classList.remove('disabled');
                     this.histogramsNodes[key].classList.remove('disabled');
