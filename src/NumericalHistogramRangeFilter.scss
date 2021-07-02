@@ -55,7 +55,7 @@ $color-bg-subline: rgb(70, 70, 70);
   position: relative;
   background-color: $color-bg-handle;
   width: 100%;
-  margin: 0px auto;
+  margin: 0 auto;
   transition: height 0.3s ease 0s;
 }
 
@@ -100,7 +100,7 @@ $color-bg-subline: rgb(70, 70, 70);
 
   &.active {
     .nhrf-histogram-slider-handle-button {
-      background-color: red;
+      background-color: $color-bg-handle;
     }
   }
 }
@@ -126,7 +126,7 @@ $color-bg-subline: rgb(70, 70, 70);
   text-align: center;
   transform: translateX(-50%);
   cursor: pointer;
-  padding: 5px 0px;
+  padding: 5px 0;
   display: block;
 }
 

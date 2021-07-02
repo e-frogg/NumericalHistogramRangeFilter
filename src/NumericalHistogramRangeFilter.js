@@ -285,7 +285,7 @@ export class NumericalHistogramRangeFilter {
 
         for (const [key, node] of Object.entries(this.histogramsButtonsNodes)) {
             if (this.histogram.slices.hasOwnProperty(key)) {
-                if (parseFloat(this.histogram.slices[key].start) >= this.min && parseFloat(this.histogram.slices[key].end) <= this.max) {
+                if (this.histogram.slices[key].start >= this.min && this.histogram.slices[key].end <= this.max) {
                     this.histogramsButtonsNodes[key].classList.remove('disabled');
                     this.histogramsNodes[key].classList.remove('disabled');
                 } else {
@@ -352,9 +352,28 @@ export class NumericalHistogramRangeFilter {
 
 export class NumericalHistogram {
     slices = {};
+    min = null;
+    max = null;
+    maxCount = null;
 
-    constructor() {
 
+    constructor(rawJsonData) {
+        this.min = rawJsonData.min;
+        this.max = rawJsonData.max;
+        this.maxCount = rawJsonData.maxCount;
+
+        let values = Object.values(rawJsonData.histogram);
+        
+        values.forEach((slice, key) => {
+            this.addSlice(
+                new NHRF.NumericalHistogramSlice(
+                    slice.start,
+                    undefined !== values[key + 1] ? values[key + 1].start : this.max,
+                    slice.count,
+                    Math.ceil((100 * slice.count) / this.maxCount)
+                )
+            );
+        });
     }
 
     addSlice(histogramSlice) {
