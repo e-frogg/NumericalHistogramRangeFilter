@@ -8,6 +8,7 @@ const baseConfig = {
         filename: 'NumericalHistogramRangeFilter.js',
         libraryTarget: 'umd',
         library: 'NHRF',
+        umdNamedDefine: true
     },
     module: {
         rules: [
