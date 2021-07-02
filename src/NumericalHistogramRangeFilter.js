@@ -285,7 +285,11 @@ export class NumericalHistogramRangeFilter {
 
         for (const [key, node] of Object.entries(this.histogramsButtonsNodes)) {
             if (this.histogram.slices.hasOwnProperty(key)) {
-                if (this.histogram.slices[key].start >= this.min && this.histogram.slices[key].end <= this.max) {
+                if (
+                    (this.histogram.slices[key].start >= this.min && this.histogram.slices[key].end <= this.max)
+                    || (this.min >= this.histogram.slices[key].start && this.min <= this.histogram.slices[key].end)
+                    || (this.histogram.slices[key].start <= this.max && this.histogram.slices[key].end >= this.max)
+                ) {
                     this.histogramsButtonsNodes[key].classList.remove('disabled');
                     this.histogramsNodes[key].classList.remove('disabled');
                 } else {
@@ -308,7 +312,7 @@ export class NumericalHistogramRangeFilter {
         for (const [key, value] of Object.entries(this.histogramsNodes)) {
             histoStart = value.offsetLeft - this.containerHistogramNode.offsetLeft;
             histoEnd = histoStart + value.offsetWidth;
-            if (offsetLeftHandle > histoEnd || offsetRightHandle < histoStart) {
+            if (offsetLeftHandle >= histoEnd || offsetRightHandle <= histoStart) {
                 value.classList.add('disabled');
             } else {
                 value.classList.remove('disabled');
