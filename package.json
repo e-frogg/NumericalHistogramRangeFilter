@@ -9,6 +9,7 @@
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.6",
     "dart-sass": "^1.25.0",
+    "filemanager-webpack-plugin": "^6.1.4",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^1.6.2",
     "postcss-loader": "^6.1.0",

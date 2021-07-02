@@ -1,4 +1,5 @@
 const path = require('path');
+const FileManagerPlugin = require('filemanager-webpack-plugin');
 
 const baseConfig = {
     entry: './src/NumericalHistogramRangeFilter.js',
@@ -20,7 +21,19 @@ const baseConfig = {
                 use: ['babel-loader']
             }
         ]
-    }
+    },
+    plugins: [
+        new FileManagerPlugin({
+            events: {
+                onEnd: {
+                    copy: [
+                        {source: 'build/*', destination: './public/build'},
+                    ],
+                }
+            }
+        }),
+    ],
+
 };
 
 module.exports = baseConfig;
