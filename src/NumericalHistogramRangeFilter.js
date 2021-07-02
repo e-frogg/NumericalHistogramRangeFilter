@@ -286,18 +286,11 @@ export class NumericalHistogramRangeFilter {
         for (const [key, node] of Object.entries(this.histogramsButtonsNodes)) {
             if (this.histogram.slices.hasOwnProperty(key)) {
                 if (parseFloat(this.histogram.slices[key].start) >= this.min && parseFloat(this.histogram.slices[key].end) <= this.max) {
-                    node.classList.remove('disabled');
+                    this.histogramsButtonsNodes[key].classList.remove('disabled');
+                    this.histogramsNodes[key].classList.remove('disabled');
                 } else {
-                    node.classList.add('disabled');
-                }
-            }
-        }
-        for (const [key, node] of Object.entries(this.histogramsNodes)) {
-            if (this.histogram.slices.hasOwnProperty(key)) {
-                if (parseFloat(this.histogram.slices[key].start) >= this.min && parseFloat(this.histogram.slices[key].end) <= this.max) {
-                    node.classList.remove('disabled');
-                } else {
-                    node.classList.add('disabled');
+                    this.histogramsButtonsNodes[key].classList.add('disabled');
+                    this.histogramsNodes[key].classList.add('disabled');
                 }
             }
         }
