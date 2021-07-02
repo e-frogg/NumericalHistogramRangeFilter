@@ -91,6 +91,8 @@ export class NumericalHistogramRangeFilter {
 
             document.removeEventListener('mouseup', mouseUpListener);
             document.removeEventListener('mousemove', mouseMoveListener);
+
+            this.eventHandler.dispatchEvent(new CustomEvent('change', {detail: {min: this.min, max: this.max}}));
         };
 
         this.containerLeftHandleNode.addEventListener('mousedown', mouseDownListener);
