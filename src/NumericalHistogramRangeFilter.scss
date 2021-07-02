@@ -1,0 +1,139 @@
+$color-bg-handle: rgb(86, 17, 121);
+$color-bg-handle-hover: rgb(69, 123, 125);
+$color-bg-handle-disabled: rgb(94, 94, 94);
+$color-bg-subline: rgb(70, 70, 70);
+
+.nhrf-container {
+
+}
+
+.nhrf-histogram {
+  width: 100%;
+  height: 50px;
+  margin-top: 5px;
+  display: flex;
+}
+
+.nhrf-container-histogram {
+  flex: 1 1 0;
+  margin: 0 20px 15px;
+}
+
+.nhrf-inputs {
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  align-self: center;
+
+  .nhrf-input {
+	width: 70px;
+	text-align: center;
+	color: rgb(63, 88, 95);
+	border: 1px solid rgb(106, 124, 129);
+	border-radius: 2px;
+	font-size: 12px;
+  }
+}
+
+.nhrf-histogram-bar {
+  flex: 1 1 0;
+  position: relative;
+  padding: 3px 1px 0;
+  height: 100%;
+  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  cursor: pointer;
+
+  &.disabled .nhrf-histogram-bar-handle {
+	background-color: $color-bg-handle-disabled;
+  }
+}
+
+.nhrf-histogram-bar-handle {
+  position: relative;
+  background-color: $color-bg-handle;
+  width: 100%;
+  margin: 0px auto;
+  transition: height 0.3s ease 0s;
+}
+
+.nhrf-histogram-subline {
+  position: relative;
+  height: 3px;
+  top: 3px;
+  display: block;
+  background: $color-bg-subline;
+}
+
+.nhrf-histogram-subline-selected-range {
+  height: 100%;
+  background-color: $color-bg-handle;
+  position: absolute;
+  left: 0;
+  width: 100%;
+
+  &.disabled {
+	background-color: $color-bg-handle-disabled;
+  }
+}
+
+.nhrf-histogram-slider {
+  position: relative;
+}
+
+.nhrf-histogram-slider-handle {
+  touch-action: pan-y;
+  position: absolute;
+  z-index: 1;
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  padding-top: 5px;
+  -webkit-box-pack: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 1;
+  left: 0;
+  transform: translateX(-50%) translateY(-16px);
+
+  &.active {
+    .nhrf-histogram-slider-handle-button {
+      background-color: red;
+    }
+  }
+}
+
+
+.nhrf-histogram-numeric-buttons {
+  display: flex;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+
+.nhrf-histogram-numeric-buttons-button {
+  position: relative;
+  font-size: 11px;
+  color: rgb(63, 88, 95);
+  margin-top: 6px;
+}
+
+.nhrf-histogram-numeric-buttons-button-text {
+  position: absolute;
+  text-align: center;
+  transform: translateX(-50%);
+  cursor: pointer;
+  padding: 5px 0px;
+  display: block;
+}
+
+.nhrf-histogram-slider-handle-button {
+  border-radius: 50%;
+  width: 17px;
+  height: 17px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(106, 124, 129);
+}

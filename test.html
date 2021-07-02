@@ -1,0 +1,173 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <style>
+        #container {
+            width: 800px;
+            margin: auto;
+            background: white;
+        }
+
+        body {
+            background: grey;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <br>
+    <hr>
+    <div style="text-align: right">
+        <button onclick="filter.reset()">reset</button>
+    </div>
+    <br>
+    <div class="nhrf-container" id="nhrf-container">
+        <div class="nhrf-inputs">
+            <input type="text" class="nhrf-input nhrf-input-min" value="0">
+            <input type="text" class="nhrf-input nhrf-input-max" value="0">
+        </div>
+
+        <div class="nhrf-container-histogram">
+            <div class="nhrf-histogram"></div>
+            <div class="nhrf-histogram-subline">
+                <div class="nhrf-histogram-subline-selected-range"></div>
+            </div>
+            <div class="nhrf-histogram-slider">
+                <div class="nhrf-histogram-slider-handle left" style="left: 0%;">
+                    <div class="nhrf-histogram-slider-handle-button"></div>
+                </div>
+                <div class="nhrf-histogram-slider-handle right" style="left: 100%;">
+                    <div class="nhrf-histogram-slider-handle-button"></div>
+                </div>
+            </div>
+            <div class="nhrf-histogram-numeric-buttons"></div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <br><br>
+    <div id="result"></div>
+</div>
+<script src="./build/NumericalHistogramRangeFilter.js"></script>
+<script>
+    var jsonFilterData = {
+        "max": 3039,
+        "min": 0,
+        "histogram":
+            {
+                "0": {
+                    "start": 0,
+                    "end": 1,
+                    "count": 1,
+                    "percent": 1
+                },
+                "1": {
+                    "start": 1,
+                    "end": 2,
+                    "count": 114,
+                    "percent": 1
+                },
+                "2": {
+                    "start": 2,
+                    "end": 4,
+                    "count": 354,
+                    "percent": 2
+                },
+                "4": {
+                    "start": 4,
+                    "end": 8,
+                    "count": 1339,
+                    "percent": 7
+                },
+                "8": {
+                    "start": 8,
+                    "end": 13,
+                    "count": 2600,
+                    "percent": 13
+                },
+                "13": {
+                    "start": 13,
+                    "end": 25,
+                    "count": 8689,
+                    "percent": 41
+                },
+                "25": {
+                    "start": 25,
+                    "end": 50,
+                    "count": 17837,
+                    "percent": 84
+                },
+                "50": {
+                    "start": 50,
+                    "end": 79,
+                    "count": 13306,
+                    "percent": 62
+                },
+                "79": {
+                    "start": 79,
+                    "end": 158,
+                    "count": 21471,
+                    "percent": 100
+                },
+                "158": {
+                    "start": 158,
+                    "end": 316,
+                    "count": 7824,
+                    "percent": 37
+                },
+                "316": {
+                    "start": 316,
+                    "end": 501,
+                    "count": 1781,
+                    "percent": 9
+                },
+                "501": {
+                    "start": 501,
+                    "end": 1000,
+                    "count": 1078,
+                    "percent": 6
+                },
+                "1000": {
+                    "start": 1000,
+                    "end": 1995,
+                    "count": 66,
+                    "percent": 1
+                },
+                "1995": {
+                    "start": 1995,
+                    "end": 21471,
+                    "count": 4,
+                    "percent": 1
+                }
+            }
+    };
+
+    var histogram = new NHRF.NumericalHistogram();
+    for (var i in jsonFilterData.histogram) {
+        histogram.addSlice(
+            new NHRF.NumericalHistogramSlice(
+                i,
+                jsonFilterData.histogram[i].end,
+                jsonFilterData.histogram[i].count,
+                jsonFilterData.histogram[i].percent
+            )
+        );
+    }
+    var filter = new NHRF.NumericalHistogramRangeFilter(
+        jsonFilterData.min,
+        jsonFilterData.max,
+        histogram
+    );
+
+    filter.onChange(function (min, max) {
+        document.getElementById('result').innerHTML = 'trigger refresh : <br>min=' + min + " <br> max=" + max;
+    });
+
+    filter.mount(document.getElementById('nhrf-container'));
+    filter.render();
+
+
+</script>
+</body>
+</html>
