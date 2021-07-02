@@ -1,6 +1,6 @@
 {
   "name": "numericalhistogramrangefilter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.14.6",
