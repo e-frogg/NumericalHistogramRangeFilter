@@ -1,0 +1,135 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <style>
+        #container {
+            width: 800px;
+            margin: auto;
+            background: white;
+        }
+
+        body {
+            background: grey;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <br>
+    <hr>
+    <div style="text-align: right">
+        <button onclick="filter.reset()">reset</button>
+    </div>
+    <br>
+    <div class="nhrf-container" id="nhrf-container">
+        <div class="nhrf-inputs">
+            <input type="text" class="nhrf-input nhrf-input-min" value="0">
+            <input type="text" class="nhrf-input nhrf-input-max" value="0">
+        </div>
+
+        <div class="nhrf-container-histogram">
+            <div class="nhrf-histogram"></div>
+            <div class="nhrf-histogram-subline">
+                <div class="nhrf-histogram-subline-selected-range"></div>
+            </div>
+            <div class="nhrf-histogram-slider">
+                <div class="nhrf-histogram-slider-handle left" style="left: 0%;">
+                    <div class="nhrf-histogram-slider-handle-button"></div>
+                </div>
+                <div class="nhrf-histogram-slider-handle right" style="left: 100%;">
+                    <div class="nhrf-histogram-slider-handle-button"></div>
+                </div>
+            </div>
+            <div class="nhrf-histogram-numeric-buttons"></div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <br><br>
+    <div id="result"></div>
+</div>
+<script src="../build/NumericalHistogramRangeFilter.js"></script>
+<script>
+    var jsonFilterData = {
+        "max": 3039,
+        "min": 0,
+        "maxCount": 21471,
+        "histogram":
+            {
+                "0": {
+                    "start": 0,
+                    "count": 1,
+                },
+                "1": {
+                    "start": 1,
+                    "count": 114,
+                },
+                "2": {
+                    "start": 2,
+                    "count": 354,
+                },
+                "4": {
+                    "start": 4,
+                    "count": 1339,
+                },
+                "8": {
+                    "start": 8,
+                    "count": 2600,
+                },
+                "13": {
+                    "start": 13,
+                    "count": 8689,
+                },
+                "25": {
+                    "start": 25,
+                    "count": 17837,
+                },
+                "50": {
+                    "start": 50,
+                    "count": 13306,
+                },
+                "79": {
+                    "start": 79,
+                    "count": 21471,
+                },
+                "158": {
+                    "start": 158,
+                    "count": 7824,
+                },
+                "316": {
+                    "start": 316,
+                    "count": 1781,
+                },
+                "501": {
+                    "start": 501,
+                    "count": 1078,
+                },
+                "1000": {
+                    "start": 1000,
+                    "count": 66,
+                },
+                "1995": {
+                    "start": 1995,
+                    "count": 4,
+                }
+            }
+    };
+
+    var filter = new NHRF.NumericalHistogramRangeFilter(
+        jsonFilterData.min,
+        jsonFilterData.max,
+        new NHRF.NumericalHistogram(jsonFilterData)
+    );
+
+    filter.onChange(function (min, max) {
+        document.getElementById('result').innerHTML = 'trigger refresh : <br>min=' + min + " <br> max=" + max;
+    });
+
+    filter.mount(document.getElementById('nhrf-container'));
+    filter.render();
+
+
+</script>
+</body>
+</html>
