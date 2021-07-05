@@ -370,7 +370,7 @@ export class NumericalHistogram {
         
         values.forEach((slice, key) => {
             this.addSlice(
-                new NHRF.NumericalHistogramSlice(
+                new NumericalHistogramSlice(
                     slice.start,
                     undefined !== values[key + 1] ? values[key + 1].start : this.max,
                     slice.count,
