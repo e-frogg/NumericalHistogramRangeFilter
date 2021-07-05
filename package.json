@@ -1,9 +1,13 @@
 {
   "name": "numericalhistogramrangefilter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "main": "build/NumericalHistogramRangeFilter.js",
   "module": "build/NumericalHistogramRangeFilter.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/e-frogg/NumericalHistogramRangeFilter"
+  },
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
