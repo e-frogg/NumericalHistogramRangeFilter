@@ -12,6 +12,10 @@
         body {
             background: grey;
         }
+
+        #formSlices input {
+            width:150px
+        }
     </style>
 </head>
 <body>
@@ -19,6 +23,26 @@
     <br>
     <hr>
     <div style="text-align: right">
+        <form action="#" onsubmit="return randomize();" id="formSlices">
+            <div>
+                <label for="countInput">slice count</label>
+                <input type="text" name="count" id="countInput" value="10">
+            </div>
+            <div>
+
+                <label for="minValueInput">horizontalMin</label>
+                <input type="text" name="minValue" id="minValueInput" value="10">
+                <label for="maxValueInput">horizontalMax</label>
+                <input type="text" name="maxValue" id="maxValueInput" value="500">
+            </div>
+            <div>
+                <label for="minCountInput">verticalMin</label>
+                <input type="text" name="minCount" id="minCountInput" value="10">
+                <label for="maxCountInput">verticalMax</label>
+                <input type="text" name="maxCount" id="maxCountInput" value="500">
+            </div>
+            <input type="submit" value="randomize">
+        </form>
         <button onclick="filter.reset()">reset</button>
     </div>
     <br>
@@ -51,6 +75,42 @@
 </div>
 <script src="./build/NumericalHistogramRangeFilter.js"></script>
 <script>
+    function randomize() {
+        var form = document.getElementById('formSlices')
+            , sliceCount = parseInt(form.count.value)
+            , minValue = parseInt(form.minValue.value)
+            , maxValue = parseInt(form.maxValue.value)
+            , minCount = parseInt(form.minCount.value)
+            , maxCount = parseInt(form.maxCount.value)
+        ;
+
+        var jsonFilterData = {
+            "min": minValue,
+            "max": maxValue,
+            "maxCount": minCount,
+            "histogram": {}
+        };
+
+        var start = minValue
+            , sliceInterval = (maxValue - minValue) / sliceCount
+            , countInterval = maxCount - minCount
+            , maxSliceCount = minCount;
+
+        for (var sliceNumber = 0; sliceNumber < sliceCount; sliceNumber++) {
+            var currentSliceCount = Math.round(minCount + Math.random() * countInterval);
+            jsonFilterData.histogram[sliceNumber.toString()] = {
+                "start": Math.round(start),
+                "count": currentSliceCount
+            }
+            maxSliceCount = Math.max(maxSliceCount, currentSliceCount);
+            start += sliceInterval;
+        }
+        jsonFilterData.maxCount = maxSliceCount;
+
+        filter.setHistogram(jsonFilterData);
+        return false;
+    }
+
     var jsonFilterData = {
         "max": 3039,
         "min": 0,

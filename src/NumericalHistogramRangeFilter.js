@@ -110,15 +110,38 @@ export class NumericalHistogramRangeFilter {
         this.containerHistogramButtonNode.innerHTML = '';
         this.totalButtons = 0;
 
+        this.createHistogramSlices()
+
+        this.inputMin.value = this.min;
+        this.inputMax.value = this.max;
+    }
+
+    refreshHistogramSlices() {
+        // clears containers and node list
+        this.histogramsNodes={};
+        this.containerHistogramNode.innerHTML='';
+        this.containerHistogramButtonNode.innerHTML='';
+        this.histogramsButtonsNodes={};
+
+        // recreate
+        this.createHistogramSlices();
+    }
+    createHistogramSlices() {
         for (const [key, value] of Object.entries(this.histogram.slices)) {
             this.createHistogramNode(value);
             this.createHistogramButtonNode(value);
         }
 
-        this.createHistogramButtonNode({start: this.max});
+        // la dernière tranche
+        this.createHistogramButtonNode({start: this.histogram.max});
+    }
 
-        this.inputMin.value = this.min;
-        this.inputMax.value = this.max;
+    setHistogram(newHistogramData) {
+        this.histogram.setRawJsonData(newHistogramData);
+        this.refreshHistogramSlices()
+        this.refreshRender()
+        // moves handlers according to the new scale
+        this.refreshHandlesPosition();
     }
 
     createHistogramNode(numericalHistogramSlice) {
@@ -130,9 +153,6 @@ export class NumericalHistogramRangeFilter {
         handle.className = 'nhrf-histogram-bar-handle';
 
         handle.addEventListener('click', (evt) => {
-            // console.log('setMin:' + numericalHistogramSlice.start);
-            // console.log('setMax:' + numericalHistogramSlice.end);
-
             this.setMin(numericalHistogramSlice.start, false);
             this.setMax(numericalHistogramSlice.end, false);
 
@@ -194,6 +214,11 @@ export class NumericalHistogramRangeFilter {
         this.totalButtons++;
     }
 
+    refreshHandlesPosition() {
+        this.setHandlePositionFromValue(this.containerLeftHandleNode, this.inputMin.value);
+        this.setHandlePositionFromValue(this.containerRightHandleNode, this.inputMax.value);
+    }
+
     setMin(value, ensureLimits) {
         if (undefined === ensureLimits) {
             ensureLimits = true;
@@ -223,7 +248,11 @@ export class NumericalHistogramRangeFilter {
     }
 
     setHandlePositionFromValue(handleNode, value) {
+        value = Math.min(value,this.histogram.max);
+        value = Math.max(value,this.histogram.min);
+
         if (this.histogramsButtonsNodes[value] !== undefined) {
+            // on a trouvé un élément dans la liste
             let bodyRect = this.containerHistogramNode.getBoundingClientRect(),
                 elemRect = this.histogramsButtonsNodes[value].getBoundingClientRect(),
                 offset = elemRect.left - bodyRect.left;
@@ -235,7 +264,6 @@ export class NumericalHistogramRangeFilter {
                 if (value > histogramSlice.start && value < histogramSlice.end) {
                     histoStart = this.histogramsNodes[key].offsetLeft - this.containerHistogramNode.offsetLeft;
                     histoEnd = histoStart + this.histogramsNodes[key].offsetWidth;
-
                     handleNode.style.left = this.computePixelPositionFromValue(
                         parseFloat(this.histogram.slices[key].start),
                         parseFloat(this.histogram.slices[key].end),
@@ -362,12 +390,18 @@ export class NumericalHistogram {
 
 
     constructor(rawJsonData) {
+        this.setRawJsonData(rawJsonData)
+    }
+
+    setRawJsonData(rawJsonData) {
         this.min = rawJsonData.min;
         this.max = rawJsonData.max;
         this.maxCount = rawJsonData.maxCount;
 
         let values = Object.values(rawJsonData.histogram);
-        
+
+        this.slices={};
+
         values.forEach((slice, key) => {
             this.addSlice(
                 new NumericalHistogramSlice(
