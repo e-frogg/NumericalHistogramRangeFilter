@@ -139,9 +139,9 @@ export class NumericalHistogramRangeFilter {
     setHistogram(newHistogramData) {
         this.histogram.setRawJsonData(newHistogramData);
         this.refreshHistogramSlices()
-        this.refreshRender()
         // moves handlers according to the new scale
         this.refreshHandlesPosition();
+        this.refreshRender()
     }
 
     createHistogramNode(numericalHistogramSlice) {

@@ -23,7 +23,10 @@
     <br>
     <hr>
     <div style="text-align: right">
-        <form action="#" onsubmit="return randomize();" id="formSlices">
+        <div>
+            <input type="button" value="randomize" onclick="randomize()">
+        </div>
+        <form action="#" onsubmit="return generate();" id="formSlices">
             <div>
                 <label for="countInput">slice count</label>
                 <input type="text" name="count" id="countInput" value="10">
@@ -41,7 +44,7 @@
                 <label for="maxCountInput">verticalMax</label>
                 <input type="text" name="maxCount" id="maxCountInput" value="500">
             </div>
-            <input type="submit" value="randomize">
+            <input type="submit" value="generate">
         </form>
         <button onclick="filter.reset()">reset</button>
     </div>
@@ -75,7 +78,20 @@
 </div>
 <script src="./build/NumericalHistogramRangeFilter.js"></script>
 <script>
+    function random(min,max) {
+        return min+Math.round(Math.random()*(max-min));
+    }
     function randomize() {
+        var form = document.getElementById('formSlices'),
+            minValue = random(0,500);
+        form.count.value=random(5,50);
+        form.minValue.value=minValue;
+        form.maxValue.value=random(minValue+10,minValue+1000);
+        minValue = random(0,500);
+        form.minCount.value=minValue;
+        form.maxCount.value=random(minValue+10,minValue+1000);
+    }
+    function generate() {
         var form = document.getElementById('formSlices')
             , sliceCount = parseInt(form.count.value)
             , minValue = parseInt(form.minValue.value)
